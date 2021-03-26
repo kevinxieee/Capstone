@@ -1,0 +1,14 @@
+.title {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 90px;
+}
+.mode {
+    padding-bottom: 30px;
+}
+.forecast {
+    padding-bottom: 30px;
+}
+.graph {
+    background-color: white;
+}
