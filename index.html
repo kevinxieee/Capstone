@@ -58,7 +58,7 @@
                         const months11_12 = [];
                         const pcea = await fetch('pcea.csv');
                         const data = await pcea.text();
-
+                        
                         const table = data.split('\n').slice(1);
                         table.forEach(elt => {
                             const columns = elt.split(',');
@@ -74,13 +74,18 @@
                     }
                 </script>
                 <canvas id="chart" width="40" height="20"></canvas>
+                <button id="toggle">show/hide all</button>
+                <button id="pcea">PCEA</button>
+                <button id="esb">ESB</button>
+                <button id="pcddr">PCDDR</button>
                 <script>
+                    var myChart;
                     chart();
                     async function chart(){
                         const data = await getData();
                         const ctx = document.getElementById('chart').getContext('2d');
                         Chart.defaults.global.defaultFontColor = 'white'
-                        const myChart = new Chart(ctx, {
+                        myChart = new Chart(ctx, {
                             type: 'line',
                             data: {
                                 labels: data.hours,
@@ -167,11 +172,18 @@
                                     position: 'bottom',
                                     padding: 10
                                 }
-                            }
+                            },
                         });
-                    }
+                    };
+                    // FIX THIS, TOGGLING WRONG WHEN CLICKING ONE DATASET FIRST
+                    document.getElementById("toggle").addEventListener('click', () => {
+                        myChart.data.datasets.forEach(function(ds) {
+                            ds.hidden = !ds.hidden;
+                        })
+                        myChart.update();
+                    });
                     </script>
-                <button id="toggle">show/hide all</button>
+
             </div>
         </div>
     </div>
