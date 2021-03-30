@@ -1,11 +1,11 @@
-async function getData(){
+async function getData() {
     const hours = [];
     const pcea = [[], [], [], [], [], []];
     const esb = [[], [], [], [], [], []];
     const pcddr = [[], [], [], [], [], []];
     const data_file = await fetch('data/SampleChartData.csv');
     const data = await data_file.text();
-    
+
     const table = data.split('\n').slice(1);
     table.forEach(elt => {
         const columns = elt.split(',');
@@ -29,13 +29,13 @@ async function getData(){
         pcddr[4].push(columns[17]);
         pcddr[5].push(columns[18]);
     });
-    return {hours, pcea, esb, pcddr};
+    return { hours, pcea, esb, pcddr };
 }
 
 var myChart;
 var data;
 chart();
-async function chart(){
+async function chart() {
     data = await getData();
     const ctx = document.getElementById('chart').getContext('2d');
     Chart.defaults.global.defaultFontColor = 'white'
@@ -107,8 +107,8 @@ async function chart(){
                         labelString: 'Hour'
                     },
                     gridLines: {
-                    color: 'white',
-                    zeroLineColor: 'white'
+                        color: 'white',
+                        zeroLineColor: 'white'
                     }
                 }],
                 yAxes: [{
@@ -117,8 +117,8 @@ async function chart(){
                         labelString: 'kW'
                     },
                     gridLines: {
-                    color: 'white',
-                    zeroLineColor: 'white'
+                        color: 'white',
+                        zeroLineColor: 'white'
                     }
                 }]
             },
@@ -132,7 +132,7 @@ async function chart(){
 
 // FIX THIS, TOGGLING WRONG WHEN CLICKING ONE DATASET FIRST
 document.getElementById("toggle").addEventListener('click', () => {
-    myChart.data.datasets.forEach(function(ds) {
+    myChart.data.datasets.forEach(function (ds) {
         ds.hidden = !ds.hidden;
     })
     myChart.update();
@@ -140,21 +140,21 @@ document.getElementById("toggle").addEventListener('click', () => {
 
 document.getElementById("pcea").addEventListener('click', () => {
     myChart.options.title.text = 'PCEA'
-    myChart.data.datasets.forEach(function(dataset, index) {
+    myChart.data.datasets.forEach(function (dataset, index) {
         dataset.data = data.pcea[index];
     })
     myChart.update();
 })
 document.getElementById("esb").addEventListener('click', () => {
     myChart.options.title.text = 'ESB'
-    myChart.data.datasets.forEach(function(dataset, index) {
+    myChart.data.datasets.forEach(function (dataset, index) {
         dataset.data = data.esb[index];
     })
     myChart.update();
 })
 document.getElementById("pcddr").addEventListener('click', () => {
     myChart.options.title.text = 'PCDDR'
-    myChart.data.datasets.forEach(function(dataset, index) {
+    myChart.data.datasets.forEach(function (dataset, index) {
         dataset.data = data.pcddr[index];
     })
     myChart.update();
