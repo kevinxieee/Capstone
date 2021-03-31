@@ -47,87 +47,58 @@ load_sched = np.arange(48)
 for i in range(len(temp)):
     load_sched[i] = load_data.iloc[ weather_data.iloc[i,1] , currentMonthGroup]
 
-## Initialize all constants
-
-ESB = 10000
-PSB = 5000
-
-# Revenue
-KPDDR = 1200.264/8720       ## $856.436 /kW year
-
-# Monthly Bill 
-WMST = 0.003499             ## $/kWh 
-KDC = 0.43
-
-# Asset Costs
-KPB = 40
-PS = 5000 
-KEB = 500
-ES = 10000
-
-# Cycle Constraint
-KNC = 67
+WMST = 0.003499 
 
 ## x[0:48] = PCEA
 ## x[48:96] = ESB
-## x[96:144] = PCDDR
 
+start_time = time.time()
+
+# Constraints to ensure that ESB falls within limits
 def constraint1(x):
     for i in range(48):
         if (i == 0):
             x[48] = 0
         else:
-            x[48+i] = x[48+i-1] + x[i] - x[96+i-1]
-    return x[0:48] + x[48:96] - x[96:144]
+            x[48+i] = x[48+i-1] + x[i]
+    return x[0:48] + x[48:96]
     
 def constraint2(x):
     for i in range(48):
         if (i == 0):
             x[48] = 0
         else:
-            x[48+i] = x[48+i-1] + x[i] - x[96+i-1]
-    return ESB - (x[0:48] + x[48:96] - x[96:144])
+            x[48+i] = x[48+i-1] + x[i]
+    return 10000 - (x[0:48]+ x[48:96])
+   
 
-def constraint3(x): 
-    return 5000 - (abs(x[0:48]) + abs(x[96:144]))
+power = ((-5000, 5000),) * 48
+storage = ((0, 10000),) * 48
 
+#Objective
+def MEC(x):           #      (    PDLL             +             PCEA     )          x        HOEP
+    return sum(sum( (load_sched + np.array([x[0:48]])) * (np.array(hoep_data)+WMST) ))
 
-power = ((-PSB, PSB),) * 48
-storage = ((0, ESB),) * 48
-DDR = ((0,PSB),) * 48
+x0 = np.array([np.ones(48), np.ones(48)])
 
-##Objective function                
-def MEC(x):
-    return -( sum(  sum(KPDDR*np.array([x[96:144]])) - sum( (load_sched + np.array([x[0:48]])) * (np.array(hoep_data)+WMST) ) ) )
-
-x0 = np.ones(144)
-bounds = (power + storage + DDR)
+bounds = (power + storage)
 cons1 = {'type': 'ineq', 'fun': constraint1}
 cons2 = {'type': 'ineq', 'fun': constraint2}
-cons3 = {'type': 'ineq', 'fun': constraint3}
-cons = ([cons1, cons2, cons3])
+
+cons = ([cons1, cons2])
 
 pcea_solutions = []
 esb_solutions = []
-ddr_solutions = []
 
-
-
-sol = minimize(MEC, x0, method='SLSQP', \
-                     bounds=bounds, \
-                     constraints=cons, \
-                     options= {'maxiter':150,'disp':True})
+sol = minimize(MEC, x0, method='SLSQP',bounds=bounds,constraints=cons,options= {'maxiter':150,'disp':True})
 pcea_solutions.append(sol.x[0:48])
 esb_solutions.append(sol.x[48:96])
-ddr_solutions.append(sol.x[96:144])
-
 print(sol.fun)
 
-costs = -(np.array(ddr_solutions)*KPDDR- (np.array(pcea_solutions) + load_sched) * (np.array(hoep_data)+WMST))
+costs = (np.array(pcea_solutions) + load_sched) * (np.array(hoep_data)+WMST)
 
-df_sol = pd.concat([weather_data.iloc[:,1], pd.DataFrame(costs).transpose(), pd.DataFrame(pcea_solutions).transpose(), pd.DataFrame(esb_solutions).transpose(),\
- pd.DataFrame(ddr_solutions).transpose() ], axis =1)
-df_sol.columns = ['Hour', 'Hourly Cost', 'PCEA', 'ESB', 'PCDDR']
+df_sol = pd.concat([weather_data.iloc[:,1], pd.DataFrame(costs).transpose(), pd.DataFrame(pcea_solutions).transpose(), pd.DataFrame(esb_solutions).transpose() ], axis =1)
+df_sol.columns = ['Hour', 'Hourly Cost', 'PCEA', 'ESB']
 
-df_sol.to_csv("Weather_wRev.csv")
 
+df_sol.to_csv("Weather_wEA.csv")
