@@ -26,6 +26,13 @@
 .forecast {
     background-color: #2C2F33;
 }
+.footer {
+    position: fixed;
+    bottom: 0;
+  }
+.footnote {
+    color: white;
+}
 html {
     background-color: #2C2F33;
 }
