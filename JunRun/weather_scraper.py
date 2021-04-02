@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import csv
+import json
 
 def getData():
     file = requests.get("https://weather.com/en-CA/weather/hourbyhour/l/62e0efebee1ac0e8fa9b21fd17d57a6a0001753ab6be8a4874bb78bbb52eda02")
@@ -29,5 +30,10 @@ def getData():
     convert = pd.DataFrame(list)
     convert.columns= [ 'Hour', 'Temperature']
     convert['Temperature'] = convert['Temperature'].map(lambda x: x.rstrip('°'))
+    
+    data = convert.to_json(orient="columns")
+    return data
 
-    convert.to_csv("weather_data.csv", line_terminator= '\n')
+    # convert.to_csv("weather_data.csv", line_terminator= '\n')
+
+
