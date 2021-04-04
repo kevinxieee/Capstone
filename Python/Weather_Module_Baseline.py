@@ -54,6 +54,7 @@ KDC = 0.43
 
 costs = np.multiply(load_sched, hoep_data+WMST)
 
+print(sum(costs))
 
 df_sol = pd.concat([weather_data.iloc[:,1], pd.DataFrame(costs) ], axis =1)
 df_sol.columns = ['Hour', 'Hourly Cost']

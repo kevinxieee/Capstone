@@ -31,9 +31,10 @@ def getData():
     convert.columns= [ 'Hour', 'Temperature']
     convert['Temperature'] = convert['Temperature'].map(lambda x: x.rstrip('°'))
     
-    data = convert.to_json(orient="columns")
-    return data
+    # data = convert.to_json(orient="columns")
+    convert.to_csv("weather_data.csv", line_terminator= '\n')
+    return 
 
-    # convert.to_csv("weather_data.csv", line_terminator= '\n')
+    
 
 
