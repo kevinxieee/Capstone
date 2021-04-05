@@ -2,8 +2,8 @@
 from flask import Flask, jsonify, request, render_template
 import json
 import pandas as pd
-import weather_scraper, Weather_Module_Baseline, Weather_Module_wEA, Weather_Module_wRevenue
-import Optimization_Baseline, Optimization_Function_wEA, Optimization_Function_wRevenue
+from functions import weather_scraper, Weather_Module_Baseline, Weather_Module_wEA, Weather_Module_wRevenue
+from functions import Optimization_Baseline, Optimization_Function_wEA, Optimization_Function_wRevenue
 
 
 app = Flask(__name__)
