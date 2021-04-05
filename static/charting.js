@@ -17,7 +17,7 @@ async function getData() {
     const optData = JSON.parse(data);
     
     makeChart(optData); 
-
+    
 }
 
 async function getWeather() {
