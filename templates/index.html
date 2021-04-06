@@ -26,16 +26,16 @@
         <script src="{{ url_for('static', filename='charting.js') }}"></script>
     </div>
     <div class="graph justify-content-center p-5">
-        <canvas id="chart" width="40" height="20"></canvas>
+        <canvas id="bar_chart" width="40" height="20"></canvas>
         <div
             class="container-fluid buttonsforcharts text-center toggle_hideall justify-content-center">
         </div>
     </div>
     <div class="container-fluid bill_table col-5 pb-5 justify-content-center">
         <div class="text-center bill_title">
-            <h2 class="text-white">
-                Yearly Bill
-            </h2>
+                <h2 class="text-white">
+                    Yearly Bill
+                </h2>
         </div>
         <div class="bill_table text-center justify-content-center">
             <table class="table table-hover table-bordered table-responsive table-dark">
@@ -51,7 +51,7 @@
         </div>
     </div>
     <div class="graph justify-content-center p-3">
-        <canvas id="chart_line" width="40" height="20"></canvas>
+        <canvas id="line_chart" width="40" height="20"></canvas>
         <div
             class="container-fluid buttonsforcharts text-center toggle_hideall justify-content-center">
             <button id="toggle" class="btn btn-dark">Show/Hide All</button>
@@ -72,7 +72,7 @@
                     aria-controls="pcea_table_collapse">Expand/Minimize</button>
             </div>
         </div>
-        <div class="collapse show" id="pcea_table_collapse">
+        <div class="collapse" id="pcea_table_collapse">
             <table class="table table-hover table-bordered table-responsive table-dark">
                 <thead>
                     <tr>
@@ -101,7 +101,7 @@
                     aria-controls="esb_table_collapse">Expand/Minimize</button>
             </div>
         </div>
-        <div class="collapse show" id="esb_table_collapse">
+        <div class="collapse" id="esb_table_collapse">
             <table class="table table-hover table-bordered table-responsive table-dark">
                 <thead>
                     <tr>
@@ -131,7 +131,7 @@
                     aria-controls="pcddr_table_collapse">Expand/Minimize</button>
             </div>
         </div>
-        <div class="collapse show" id="pcddr_table_collapse">
+        <div class="collapse" id="pcddr_table_collapse">
             <table class="table table-hover table-bordered table-responsive table-dark">
                 <thead>
                     <tr>

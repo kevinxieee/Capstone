@@ -1,41 +1,23 @@
-
-
-function sayHello() {
-    fetch('/test')
-        .then(function (response) {
-            return response.json();
-        }).then(function (text) {
-            console.log('GET response:');
-            console.log(text.greeting);
-        });
-}
-
 async function getData() {
-
     const response = await fetch(`/getdata`);
     const data = await response.json();
     const optData = JSON.parse(data);
-
-    makeChart(optData);
+    
+    makeChartBar(optData);
+    makeChartLine(optData);
     makeTable(optData);
-
 }
 
 async function getWeather() {
-
     const response = await fetch(`/getweather`);
     const data = await response.json();
     const weatherData = JSON.parse(data);
 
-    makeChart(weatherData);
-
+    makeChartBar(weatherData);
 }
 
-function makeChart(displayData) {
-    console.log('Making Chart! Here\'s the data!');
-    console.log(displayData);
-
-    const ctx = document.getElementById('chart').getContext('2d');
+function makeChartBar(displayData) {
+    const ctx = document.getElementById('bar_chart').getContext('2d');
     Chart.defaults.global.defaultFontColor = 'white'
     myChart = new Chart(ctx, {
         type: 'bar',
@@ -109,6 +91,7 @@ function makeTable(tableData) {
     var table_pcea = "";
     var table_esb = "";
     var table_pcddr = "";
+
     for (var i = 0; i < 24; i++) {
         table_pcea += "<tr>";
         table_esb += "<tr>";
@@ -117,7 +100,6 @@ function makeTable(tableData) {
         table_esb += "<td>" + i + "</td>"
         table_pcddr += "<td>" + i + "</td>"
         for (var j = 0; j < tableData.pcea.length; j++) {
-            console.log(i, j)
             table_pcea += "<td>" + tableData.pcea[j][i].toFixed(3) + "</td>";
         }
         for (var k = 0; k < tableData.esb.length; k++) {
@@ -131,16 +113,19 @@ function makeTable(tableData) {
         table_pcddr += "</tr>";
     }
 
+    var table_yearly = "<tr><td>" + tableData.base_y_bill.toFixed(2) + "</td><td>" + tableData.EA_y_bill.toFixed(2) + "</td><td>" + tableData.ddr_y_bill.toFixed(2) + "</td></tr>"
+
     document.getElementById("table_pcea").innerHTML += table_pcea
     document.getElementById("table_esb").innerHTML += table_esb
     document.getElementById("table_pcddr").innerHTML += table_pcddr
+    document.getElementById("table_bill").innerHTML += table_yearly
 }
 
 //THIS IS OLD CHART
 var displayData_line;
-function chart(chart_line) {
+function makeChartLine(chart_line) {
     var displayData_line = chart_line;
-    const ctx = document.getElementById('chart_line').getContext('2d');
+    const ctx = document.getElementById('line_chart').getContext('2d');
     Chart.defaults.global.defaultFontColor = 'white'
     myChart_line = new Chart(ctx, {
         type: 'line',
