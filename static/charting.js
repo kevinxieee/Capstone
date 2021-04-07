@@ -220,12 +220,16 @@ function makeTable(tableData) {
         table_pcddr += "</tr>";
     }
 
+    var table_headers = "<tr><th>Hour</th><th>Month 1 and Month 2</th><th>Month 3 and Month 4</th><th>Month 5 and Month 6</th><th>Month 7 and Month 8</th><th>Month 9 and Month 10</th><th>Month 11 and Month 12</th></tr>"
     var table_yearly = "<tr><td>$" + tableData.base_y_bill.toFixed(2) + "</td><td>$" + tableData.EA_y_bill.toFixed(2) + "</td><td>$" + tableData.ddr_y_bill.toFixed(2) + "</td></tr>"
 
-    document.getElementById("table_pcea").innerHTML = table_pcea
-    document.getElementById("table_esb").innerHTML = table_esb
-    document.getElementById("table_pcddr").innerHTML = table_pcddr
-    document.getElementById("table_bill").innerHTML = table_yearly
+    document.getElementById("table_pcea_header").innerHTML = table_headers;
+    document.getElementById("table_esb_header").innerHTML = table_headers;
+    document.getElementById("table_pcddr_header").innerHTML = table_headers;
+    document.getElementById("table_pcea").innerHTML = table_pcea;
+    document.getElementById("table_esb").innerHTML = table_esb;
+    document.getElementById("table_pcddr").innerHTML = table_pcddr;
+    document.getElementById("table_bill").innerHTML = table_yearly;
 }
 
 function makeWeatherTable(tableData) {
@@ -432,7 +436,7 @@ document.getElementById("pcea").addEventListener('click', () => {
         dataset.data = displayData_line.pcea[index];
     })
     myChart_line.update();
-})
+});
 document.getElementById("esb").addEventListener('click', () => {
     myChart_line.options.title.text = 'ESB'
     myChart_line.options.scales.yAxes[0].scaleLabel.labelString = 'kWh'
@@ -440,11 +444,11 @@ document.getElementById("esb").addEventListener('click', () => {
         dataset.data = displayData_line.esb[index];
     })
     myChart_line.update();
-})
+});
 document.getElementById("pcddr").addEventListener('click', () => {
     myChart_line.options.title.text = 'PCDDR'
     myChart_line.data.datasets.forEach(function (dataset, index) {
         dataset.data = displayData_line.ddr[index];
     })
     myChart_line.update();
-})
+});
