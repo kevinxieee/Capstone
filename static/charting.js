@@ -141,10 +141,10 @@ function makeTable(tableData) {
 
     var table_yearly = "<tr><td>$" + tableData.base_y_bill.toFixed(2) + "</td><td>$" + tableData.EA_y_bill.toFixed(2) + "</td><td>$" + tableData.ddr_y_bill.toFixed(2) + "</td></tr>"
 
-    document.getElementById("table_pcea").innerHTML += table_pcea
-    document.getElementById("table_esb").innerHTML += table_esb
-    document.getElementById("table_pcddr").innerHTML += table_pcddr
-    document.getElementById("table_bill").innerHTML += table_yearly
+    document.getElementById("table_pcea").innerHTML = table_pcea
+    document.getElementById("table_esb").innerHTML = table_esb
+    document.getElementById("table_pcddr").innerHTML = table_pcddr
+    document.getElementById("table_bill").innerHTML = table_yearly
 }
 
 //THIS IS OLD CHART
