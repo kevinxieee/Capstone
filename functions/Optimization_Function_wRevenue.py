@@ -153,10 +153,9 @@ def getData():
                         constraints=cons,\
                         options= {'maxiter':150,'disp':True})
         y.append(sol.fun)
-        for i in range(24):
-            pcea_solutions.append(sol.x[0:24].tolist())
-            esb_solutions.append(sol.x[24:48].tolist())
-            ddr_solutions.append(sol.x[48:72].tolist())
+        pcea_solutions.append(sol.x[0:24].tolist())
+        esb_solutions.append(sol.x[24:48].tolist())
+        ddr_solutions.append(sol.x[48:72].tolist())
 
     # Round decimals
     y_round = [round(num,2) for num in y]
