@@ -1,3 +1,13 @@
+function roundArray(array, decimalPlaces){
+    var x = 0;
+    while (x < array.length){
+        array[x] = array[x].toFixed(decimalPlaces);
+        x++;
+    }
+    console.log(array)
+    return array;
+}
+
 async function getData() {
     //let historicalbutton = document.querySelector('#HistoricalButton');
     //historicalbutton.addEventListener('click', historicalbutton.innerHTML = 'Loading Historical Data...')
@@ -5,6 +15,13 @@ async function getData() {
     const response = await fetch(`/getdata`);
     const data = await response.json();
     const optData = JSON.parse(data);
+    console.log(optData)
+
+    for (var i = 0; i < 6; i++){
+        optData.pcea[i] = roundArray(optData.pcea[i], 3);
+        optData.esb[i] = roundArray(optData.esb[i], 3);
+        optData.ddr[i] = roundArray(optData.ddr[i], 3);
+    }
 
     makeChartBar(optData);
     makeChartLine(optData);
@@ -109,20 +126,20 @@ function makeTable(tableData) {
         table_esb += "<td>" + i + "</td>"
         table_pcddr += "<td>" + i + "</td>"
         for (var j = 0; j < tableData.pcea.length; j++) {
-            table_pcea += "<td>" + tableData.pcea[j][i].toFixed(3) + "</td>";
+            table_pcea += "<td>" + tableData.pcea[j][i] + "</td>";
         }
         for (var k = 0; k < tableData.esb.length; k++) {
-            table_esb += "<td>" + tableData.esb[k][i].toFixed(3) + "</td>";
+            table_esb += "<td>" + tableData.esb[k][i] + "</td>";
         }
         for (var x = 0; x < tableData.ddr.length; x++) {
-            table_pcddr += "<td>" + tableData.ddr[x][i].toFixed(3) + "</td>";
+            table_pcddr += "<td>" + tableData.ddr[x][i] + "</td>";
         }
         table_pcea += "</tr>";
         table_esb += "</tr>";
         table_pcddr += "</tr>";
     }
 
-    var table_yearly = "<tr><td>" + tableData.base_y_bill.toFixed(2) + "</td><td>" + tableData.EA_y_bill.toFixed(2) + "</td><td>" + tableData.ddr_y_bill.toFixed(2) + "</td></tr>"
+    var table_yearly = "<tr><td>$" + tableData.base_y_bill.toFixed(2) + "</td><td>$" + tableData.EA_y_bill.toFixed(2) + "</td><td>$" + tableData.ddr_y_bill.toFixed(2) + "</td></tr>"
 
     document.getElementById("table_pcea").innerHTML += table_pcea
     document.getElementById("table_esb").innerHTML += table_esb
@@ -246,6 +263,7 @@ document.getElementById("pcea").addEventListener('click', () => {
 })
 document.getElementById("esb").addEventListener('click', () => {
     myChart_line.options.title.text = 'ESB'
+    myChart_line.options.scales.yAxes[0].scaleLabel.labelString = 'kWh'
     myChart_line.data.datasets.forEach(function (dataset, index) {
         dataset.data = displayData_line.esb[index];
     })
