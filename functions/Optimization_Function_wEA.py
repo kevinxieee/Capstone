@@ -123,7 +123,9 @@ def getData():
         sol = minimize(MEC, x0, method='SLSQP',bounds=bounds,constraints=cons,options= {'maxiter':150,'disp':True})
         y.append(2*sol.fun)
 
-    input_var = { "EA_m_bill": y , "EA_y_bill" : sum(y) }
+    y_round = [round(num,2) for num in y]
+
+    input_var = { "EA_m_bill": y_round , "EA_y_bill" : round(sum(y),2) }
     
 
     return input_var

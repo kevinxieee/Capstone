@@ -69,7 +69,9 @@ def getData():
         bill = mec + mdc
         y.append(bill)
 
-    input_var = { "base_m_bill": y , "base_y_bill" : sum(y)}
+    y_round = [round(num,2) for num in y]
+
+    input_var = { "base_m_bill": y_round , "base_y_bill" : round(sum(y),2)}
     
 
     return input_var

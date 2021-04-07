@@ -153,10 +153,17 @@ def getData():
                         constraints=cons,\
                         options= {'maxiter':150,'disp':True})
         y.append(sol.fun)
-        pcea_solutions.append(sol.x[0:24].tolist())
-        esb_solutions.append(sol.x[24:48].tolist())
-        ddr_solutions.append(sol.x[48:72].tolist())
+        for i in range(24):
+            pcea_solutions.append(sol.x[0:24].tolist())
+            esb_solutions.append(sol.x[24:48].tolist())
+            ddr_solutions.append(sol.x[48:72].tolist())
 
-    input_var = {"columns": columns, "pcea": pcea_solutions, "esb": esb_solutions, "ddr": ddr_solutions,  "ddr_m_bill": y, "ddr_y_bill": sum(y) }
+    # Round decimals
+    y_round = [round(num,2) for num in y]
+    pcea_round = [[round(i, 3) for i in j] for j in pcea_solutions]
+    esb_round = [[round(i, 3) for i in j] for j in esb_solutions]
+    ddr_round = [[round(i, 3) for i in j] for j in ddr_solutions]
+
+    input_var = {"columns": columns, "pcea": pcea_round, "esb": esb_round, "ddr": ddr_round,  "ddr_m_bill": y_round, "ddr_y_bill": round(sum(y),2) }
 
     return(input_var)
