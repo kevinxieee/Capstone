@@ -1,11 +1,17 @@
 async function getData() {
+    //let historicalbutton = document.querySelector('#HistoricalButton');
+    //historicalbutton.addEventListener('click', historicalbutton.innerHTML = 'Loading Historical Data...')
+
     const response = await fetch(`/getdata`);
     const data = await response.json();
     const optData = JSON.parse(data);
-    
+
     makeChartBar(optData);
     makeChartLine(optData);
     makeTable(optData);
+
+    var visible = document.getElementById("visibiltydiv");
+    visible.style.display = "block";
 }
 
 async function getWeather() {
@@ -14,6 +20,9 @@ async function getWeather() {
     const weatherData = JSON.parse(data);
 
     makeChartBar(weatherData);
+
+    var visible = document.getElementById("visibiltydiv");
+    visible.style.display = "block";
 }
 
 function makeChartBar(displayData) {
@@ -123,8 +132,9 @@ function makeTable(tableData) {
 
 //THIS IS OLD CHART
 var displayData_line;
+var myChart_line;
 function makeChartLine(chart_line) {
-    var displayData_line = chart_line;
+    displayData_line = chart_line;
     const ctx = document.getElementById('line_chart').getContext('2d');
     Chart.defaults.global.defaultFontColor = 'white'
     myChart_line = new Chart(ctx, {
@@ -219,7 +229,7 @@ function makeChartLine(chart_line) {
 };
 
 // FIX THIS, TOGGLING WRONG WHEN CLICKING ONE DATASET FIRST
-/*
+
 document.getElementById("toggle").addEventListener('click', () => {
     myChart_line.data.datasets.forEach(function (ds) {
         ds.hidden = !ds.hidden;
@@ -247,4 +257,4 @@ document.getElementById("pcddr").addEventListener('click', () => {
         dataset.data = displayData_line.ddr[index];
     })
     myChart_line.update();
-})*/
+})
