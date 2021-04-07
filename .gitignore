@@ -4,4 +4,4 @@
 /.vscode
 
 # Weather data changes with each run, should only exist in local not git
-/JunRun/weather_data.csv 
+/data/weather_data.csv 
