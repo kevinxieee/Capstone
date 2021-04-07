@@ -91,6 +91,6 @@ def getData():
 
     sol = minimize(MEC, x0, method='SLSQP',bounds=bounds,constraints=cons,options= {'maxiter':150,'disp':True})
 
-    input_var = {"EA_w_bill": sol.fun}
+    input_var = {"EA_w_bill": round(sol.fun,2)}
 
     return input_var

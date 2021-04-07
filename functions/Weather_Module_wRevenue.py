@@ -124,7 +124,7 @@ def getData():
     esb_solutions.append(sol.x[48:96].tolist())
     ddr_solutions.append(sol.x[96:144].tolist())
 
-    input_var = {"Hour": hours, "pcea": pcea_solutions, "esb": esb_solutions, "ddr": ddr_solutions,  "ddr_w_bill": sol.fun, "hoep": hoep_data.tolist(), "temperature": temp.tolist()}
+    input_var = {"Hour": hours, "pcea": pcea_solutions, "esb": esb_solutions, "ddr": ddr_solutions,  "ddr_w_bill": round(sol.fun,2), "hoep": hoep_data.tolist(), "temperature": temp.tolist()}
 
     return input_var
 

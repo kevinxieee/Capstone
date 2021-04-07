@@ -56,8 +56,9 @@ def getData():
     # Calculate costs
 
     costs = np.multiply(load_sched, hoep_data+WMST)
+    
 
-    input_var = {"base_w_bill": sum(costs)}
+    input_var = {"base_w_bill": round(sum(costs),2)}
 
     return input_var
 

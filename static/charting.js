@@ -35,11 +35,92 @@ async function getWeather() {
     const response = await fetch(`/getweather`);
     const data = await response.json();
     const weatherData = JSON.parse(data);
-
-    makeChartBar(weatherData);
+    console.log(weatherData);
+    makeTempLine(weatherData);
+    makeWeatherTable(weatherData);
+    makeWeatherLine(weatherData);
 
     var visible = document.getElementById("visibiltydiv");
     visible.style.display = "block";
+}
+
+function makeTempLine(displayData) {
+    const ctx = document.getElementById('bar_chart').getContext('2d');
+    Chart.defaults.global.defaultFontColor = 'white'
+    myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: displayData.Hour,
+            datasets: [
+                {
+                    label: 'Temperature (Celsius)',
+                    yAxisID: 'A',
+                    data: displayData.temperature,
+                    fill: false,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 3
+                },
+                {
+                    label: 'Predicted HOEP Price ($)',
+                    yAxisID: 'B',
+                    data: displayData.hoep,
+                    fill: true,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 3
+                },
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Monthly Bill',
+                fontSize: 20
+            },
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        text: 'Time (Hours)'
+                    },
+                    gridLines: {
+                        color: 'white',
+                        zeroLineColor: 'white'
+                    }
+                }],
+                yAxes: [{
+                    id: 'A',
+                    type: 'linear',
+                    position: 'left',
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Temperature (Celsius)',
+                        }
+                    },
+                    {
+                    id: 'B',
+                    type: 'linear', 
+                    position: 'right',
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Dollars ($)',
+                        }
+                    },
+                    {
+                    gridLines: {
+                        color: 'white',
+                        zeroLineColor: 'white'
+                    }
+                }]
+            },
+            legend: {
+                position: 'bottom',
+                padding: 10
+            }
+        },
+    });
+
 }
 
 function makeChartBar(displayData) {
@@ -147,6 +228,42 @@ function makeTable(tableData) {
     document.getElementById("table_bill").innerHTML = table_yearly
 }
 
+function makeWeatherTable(tableData) {
+
+    var table_pcea = "";
+    var table_esb = "";
+    var table_pcddr = "";
+
+    for (var i = 0; i < 48; i++) {
+        table_pcea += "<tr>";
+        table_esb += "<tr>";
+        table_pcddr += "<tr>";
+        table_pcea += "<td>" + i + "</td>"
+        table_esb += "<td>" + i + "</td>"
+        table_pcddr += "<td>" + i + "</td>"
+        for (var j = 0; j < tableData.pcea.length; j++) {
+            table_pcea += "<td>" + tableData.pcea[j][i] + "</td>";
+        }
+        for (var k = 0; k < tableData.esb.length; k++) {
+            table_esb += "<td>" + tableData.esb[k][i] + "</td>";
+        }
+        for (var x = 0; x < tableData.ddr.length; x++) {
+            table_pcddr += "<td>" + tableData.ddr[x][i] + "</td>";
+        }
+        table_pcea += "</tr>";
+        table_esb += "</tr>";
+        table_pcddr += "</tr>";
+    }
+
+    var table_yearly = "<tr><td>$" + tableData.base_w_bill.toFixed(2) + "</td><td>$" + tableData.EA_w_bill.toFixed(2) + "</td><td>$" + tableData.ddr_w_bill.toFixed(2) + "</td></tr>"
+
+    
+    document.getElementById("table_pcea").innerHTML = table_pcea
+    document.getElementById("table_esb").innerHTML = table_esb
+    document.getElementById("table_pcddr").innerHTML = table_pcddr
+    document.getElementById("table_bill").innerHTML = table_yearly
+}
+
 //THIS IS OLD CHART
 var displayData_line;
 var myChart_line;
@@ -205,6 +322,61 @@ function makeChartLine(chart_line) {
                     fill: false,
                     backgroundColor: 'rgba(255, 159, 64, 0.2)',
                     borderColor: 'rgba(255, 159, 64, 1)',
+                    borderWidth: 3
+                }
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'PCEA',
+                fontSize: 20
+            },
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Hour'
+                    },
+                    gridLines: {
+                        color: 'white',
+                        zeroLineColor: 'white'
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'kW'
+                    },
+                    gridLines: {
+                        color: 'white',
+                        zeroLineColor: 'white'
+                    }
+                }]
+            },
+            legend: {
+                position: 'bottom',
+                padding: 10
+            }
+        },
+    });
+};
+
+function makeWeatherLine(chart_line) {
+    displayData_line = chart_line;
+    const ctx = document.getElementById('line_chart').getContext('2d');
+    Chart.defaults.global.defaultFontColor = 'white'
+    myChart_line = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: displayData_line.Hour,
+            datasets: [
+                {
+                    label: 'Next 48 Hours',
+                    data: displayData_line.pcea[0],
+                    fill: false,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 3
                 }
             ]
