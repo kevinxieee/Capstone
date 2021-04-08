@@ -21,11 +21,15 @@
     </div>
     <div class="container-fluid option_buttons justify-content-center text-center p-3">
         <button class="btn btn-dark" id="HistoricalButton" onclick="getData();">
-            <span id="LoadingAnimation" style="display: none"
+            <span id="LoadingAnimationHistorical" style="display: none"
                 class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <span id="HistoricalButtonText">Historical</span>
         </button>
-        <button class="btn btn-dark" onclick="getWeather();">Weather</button>
+        <button class="btn btn-dark" onclick="getWeather();">
+            <span id="LoadingAnimationWeather" style="display: none"
+                class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span id="WeatherButtonText">Weather</span>
+        </button>
     </div>
     <div id="visibiltydiv" style="display: none;">
         <div class="graph justify-content-center p-5">

@@ -11,7 +11,7 @@ function roundArray(array, decimalPlaces) {
 async function getData() {
     let historicalbutton = document.querySelector('#HistoricalButtonText');
     historicalbutton.innerHTML = 'Loading Historical Data...';
-    let loading = document.querySelector('#LoadingAnimation');
+    let loading = document.querySelector('#LoadingAnimationHistorical');
     console.log(loading);
     console.log(loading.style);
     console.log(loading.style.display);
@@ -40,6 +40,14 @@ async function getData() {
 }
 
 async function getWeather() {
+    let weatherbutton = document.querySelector('#WeatherButtonText');
+    weatherbutton.innerHTML = 'Loading Weather Data...';
+    let loading = document.querySelector('#LoadingAnimationWeather');
+    console.log(loading);
+    console.log(loading.style);
+    console.log(loading.style.display);
+    loading.style.display = "inline-block";
+
     const response = await fetch(`/getweather`);
     const data = await response.json();
     const weatherData = JSON.parse(data);
@@ -50,6 +58,9 @@ async function getWeather() {
 
     var visible = document.getElementById("visibiltydiv");
     visible.style.display = "block";
+
+    weatherbutton.innerHTML = 'Weather';
+    loading.style.display = "none";
 }
 
 function makeTempLine(displayData) {
