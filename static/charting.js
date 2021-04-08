@@ -9,9 +9,13 @@ function roundArray(array, decimalPlaces) {
 }
 
 async function getData() {
-    let historicalbutton = document.querySelector('#HistoricalButton');
+    let historicalbutton = document.querySelector('#HistoricalButtonText');
     historicalbutton.innerHTML = 'Loading Historical Data...';
-    //document.getElementById('LoadingAnimation').style.display = "block";
+    let loading = document.querySelector('#LoadingAnimation');
+    console.log(loading);
+    console.log(loading.style);
+    console.log(loading.style.display);
+    loading.style.display = "inline-block";
 
     const response = await fetch(`/getdata`);
     const data = await response.json();
@@ -32,6 +36,7 @@ async function getData() {
     visible.style.display = "block";
 
     historicalbutton.innerHTML = 'Historical';
+    loading.style.display = "none";
 }
 
 async function getWeather() {
