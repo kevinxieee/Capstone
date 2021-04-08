@@ -13,9 +13,6 @@ async function getData() {
     historicalbutton.innerHTML = 'Loading Historical Data...';
     let loading = document.querySelector('#LoadingAnimationHistorical');
     document.getElementById('HistoricalButton').disabled = true;
-    console.log(loading);
-    console.log(loading.style);
-    console.log(loading.style.display);
     loading.style.display = "inline-block";
 
     const response = await fetch(`/getdata`);
@@ -46,9 +43,6 @@ async function getWeather() {
     weatherbutton.innerHTML = 'Loading Weather Data...';
     let loading = document.querySelector('#LoadingAnimationWeather');
     document.getElementById('WeatherButton').disabled = true;
-    console.log(loading);
-    console.log(loading.style);
-    console.log(loading.style.display);
     loading.style.display = "inline-block";
 
     const response = await fetch(`/getweather`);
