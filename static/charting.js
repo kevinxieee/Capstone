@@ -1,3 +1,7 @@
+var displayData_line;
+var myChart_line;
+var myChart;
+
 function roundArray(array, decimalPlaces) {
     var x = 0;
     while (x < array.length) {
@@ -45,6 +49,14 @@ async function getData() {
         optData.ddr[i] = roundArray(optData.ddr[i], 3);
     }
 
+    if(myChart_line){
+        myChart_line.destroy();
+    }
+
+    if(myChart){
+        myChart.destroy();
+    }
+    
     makeChartBar(optData);
     makeChartLine(optData);
     makeTable(optData);
@@ -72,6 +84,14 @@ async function getWeather() {
     weatherData.pcea[0] = roundArray(weatherData.pcea[0], 3);
     weatherData.esb[0] = roundArray(weatherData.esb[0], 3);
     weatherData.ddr[0] = roundArray(weatherData.ddr[0], 3);
+
+    if(myChart_line){
+        myChart_line.destroy();
+    }
+
+    if(myChart){
+        myChart.destroy();
+    }
 
     makeTempLine(weatherData);
     makeWeatherTable(weatherData);
@@ -312,8 +332,7 @@ function makeWeatherTable(tableData) {
 }
 
 //THIS IS OLD CHART
-var displayData_line;
-var myChart_line;
+
 function makeChartLine(chart_line) {
     displayData_line = chart_line;
     const ctx = document.getElementById('line_chart').getContext('2d');
