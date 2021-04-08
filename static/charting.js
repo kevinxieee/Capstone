@@ -12,6 +12,7 @@ async function getData() {
     let historicalbutton = document.querySelector('#HistoricalButtonText');
     historicalbutton.innerHTML = 'Loading Historical Data...';
     let loading = document.querySelector('#LoadingAnimationHistorical');
+    document.getElementById('HistoricalButton').disabled = true;
     console.log(loading);
     console.log(loading.style);
     console.log(loading.style.display);
@@ -36,6 +37,7 @@ async function getData() {
     visible.style.display = "block";
 
     historicalbutton.innerHTML = 'Historical';
+    document.getElementById('HistoricalButton').disabled = false;
     loading.style.display = "none";
 }
 
@@ -43,6 +45,7 @@ async function getWeather() {
     let weatherbutton = document.querySelector('#WeatherButtonText');
     weatherbutton.innerHTML = 'Loading Weather Data...';
     let loading = document.querySelector('#LoadingAnimationWeather');
+    document.getElementById('WeatherButton').disabled = true;
     console.log(loading);
     console.log(loading.style);
     console.log(loading.style.display);
@@ -60,6 +63,7 @@ async function getWeather() {
     visible.style.display = "block";
 
     weatherbutton.innerHTML = 'Weather';
+    document.getElementById('WeatherButton').disabled = false;
     loading.style.display = "none";
 }
 
