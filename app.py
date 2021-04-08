@@ -20,13 +20,19 @@ def home_page():
 def optData():
     
     if request.method == 'POST': # POST request
-        print(request.get_text())  # parse as text
-        return 'OK', 200
+        print(request.data)
+        a = Optimization_Baseline.getData(request.data)
+        b = Optimization_Function_wEA.getData(request.data)
+        c = Optimization_Function_wRevenue.getData(request.data)
+        
+        json_data = json.dumps({**a, **b, **c})
+
+        return jsonify(json_data)
     
     else: # GET request
-        a = Optimization_Baseline.getData()
-        b = Optimization_Function_wEA.getData()
-        c = Optimization_Function_wRevenue.getData()
+        a = Optimization_Baseline.getData(request.data)
+        b = Optimization_Function_wEA.getData(request.data)
+        c = Optimization_Function_wRevenue.getData(request.data)
         
         json_data = json.dumps({**a, **b, **c})
 

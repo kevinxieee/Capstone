@@ -2,9 +2,14 @@ import numpy as np
 import pandas as pd
 
 
-def getData():
+def getData(yyyy):
     ## Read in csv file from IESO website, ***fill blank entries with 0*** (temp)
-    df = pd.read_csv("http://reports.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_2019.csv").fillna(0)
+    if int(yyyy) == 2018 :
+        df = pd.read_csv("http://reports.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_2018.csv").fillna(0)
+    elif int(yyyy) == 2019:
+        df = pd.read_csv("http://reports.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_2019.csv").fillna(0)
+    elif int(yyyy) == 2020:
+        df = pd.read_csv("http://reports.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_2020.csv").fillna(0)
 
     df.rename(columns=df.iloc[2], inplace=True)         ## Set headers to the proper ones row 4
     df = df[3:]

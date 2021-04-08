@@ -15,7 +15,26 @@ async function getData() {
     document.getElementById('HistoricalButton').disabled = true;
     loading.style.display = "inline-block";
 
-    const response = await fetch(`/getdata`);
+    var yyyy=2020; 
+
+    if (document.getElementById('2020').checked){
+        yyyy = 2020;
+    }
+    else if (document.getElementById('2019').checked) {
+        yyyy = 2019; 
+    } else if (document.getElementById('2018').checked) {
+        yyyy = 2018; 
+    } else {
+        alert('Please select a year!');
+        document.getElementById('HistoricalButton').disabled = true;
+        loading.style.display = "inline-block";
+    }
+
+
+    const response = await fetch(`/getdata`, {
+        method: 'post', 
+        body: yyyy,
+    });
     const data = await response.json();
     const optData = JSON.parse(data);
     console.log(optData)
@@ -49,6 +68,11 @@ async function getWeather() {
     const data = await response.json();
     const weatherData = JSON.parse(data);
     console.log(weatherData);
+
+    weatherData.pcea[0] = roundArray(weatherData.pcea[0], 3);
+    weatherData.esb[0] = roundArray(weatherData.esb[0], 3);
+    weatherData.ddr[0] = roundArray(weatherData.ddr[0], 3);
+
     makeTempLine(weatherData);
     makeWeatherTable(weatherData);
     makeWeatherLine(weatherData);
@@ -259,9 +283,9 @@ function makeWeatherTable(tableData) {
         table_pcea += "<tr>";
         table_esb += "<tr>";
         table_pcddr += "<tr>";
-        table_pcea += "<td>" + i + "</td>"
-        table_esb += "<td>" + i + "</td>"
-        table_pcddr += "<td>" + i + "</td>"
+        table_pcea += "<td>" + tableData.Hour[i] + "</td>"
+        table_esb += "<td>" + tableData.Hour[i] + "</td>"
+        table_pcddr += "<td>" + tableData.Hour[i] + "</td>"
         for (var j = 0; j < tableData.pcea.length; j++) {
             table_pcea += "<td>" + tableData.pcea[j][i] + "</td>";
         }
@@ -275,10 +299,12 @@ function makeWeatherTable(tableData) {
         table_esb += "</tr>";
         table_pcddr += "</tr>";
     }
-
+    var table_headers = "<tr><th>Hour</th><th>Usage</th></tr>"
     var table_yearly = "<tr><td>$" + tableData.base_w_bill.toFixed(2) + "</td><td>$" + tableData.EA_w_bill.toFixed(2) + "</td><td>$" + tableData.ddr_w_bill.toFixed(2) + "</td></tr>"
 
-
+    document.getElementById("table_pcea_header").innerHTML = table_headers;
+    document.getElementById("table_esb_header").innerHTML = table_headers;
+    document.getElementById("table_pcddr_header").innerHTML = table_headers;
     document.getElementById("table_pcea").innerHTML = table_pcea
     document.getElementById("table_esb").innerHTML = table_esb
     document.getElementById("table_pcddr").innerHTML = table_pcddr

@@ -4,8 +4,13 @@ import pandas as pd
 
 from scipy.optimize import minimize
 
-def getData():
-    df = pd.read_csv("http://reports.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_2019.csv").fillna(0)
+def getData(yyyy):
+    if int(yyyy) == 2018 :
+        df = pd.read_csv("http://reports.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_2018.csv").fillna(0)
+    elif int(yyyy) == 2019:
+        df = pd.read_csv("http://reports.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_2019.csv").fillna(0)
+    elif int(yyyy) == 2020:
+        df = pd.read_csv("http://reports.ieso.ca/public/PriceHOEPPredispOR/PUB_PriceHOEPPredispOR_2020.csv").fillna(0)
 
     df.rename(columns=df.iloc[2], inplace=True)         ## Set headers to the proper ones row 4
     df = df[3:]
