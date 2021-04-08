@@ -17,17 +17,18 @@ async function getData() {
     historicalbutton.innerHTML = 'Loading Historical Data...';
     let loading = document.querySelector('#LoadingAnimationHistorical');
     document.getElementById('HistoricalButton').disabled = true;
+    document.getElementById('WeatherButton').disabled = true;
     loading.style.display = "inline-block";
 
-    var yyyy=2020; 
+    var yyyy = 2020;
 
-    if (document.getElementById('2020').checked){
+    if (document.getElementById('2020').checked) {
         yyyy = 2020;
     }
     else if (document.getElementById('2019').checked) {
-        yyyy = 2019; 
+        yyyy = 2019;
     } else if (document.getElementById('2018').checked) {
-        yyyy = 2018; 
+        yyyy = 2018;
     } else {
         alert('Please select a year!');
         document.getElementById('HistoricalButton').disabled = true;
@@ -36,7 +37,7 @@ async function getData() {
 
 
     const response = await fetch(`/getdata`, {
-        method: 'post', 
+        method: 'post',
         body: yyyy,
     });
     const data = await response.json();
@@ -49,14 +50,14 @@ async function getData() {
         optData.ddr[i] = roundArray(optData.ddr[i], 3);
     }
 
-    if(myChart_line){
+    if (myChart_line) {
         myChart_line.destroy();
     }
 
-    if(myChart){
+    if (myChart) {
         myChart.destroy();
     }
-    
+
     makeChartBar(optData);
     makeChartLine(optData);
     makeTable(optData);
@@ -66,6 +67,7 @@ async function getData() {
 
     historicalbutton.innerHTML = 'Historical';
     document.getElementById('HistoricalButton').disabled = false;
+    document.getElementById('WeatherButton').disabled = false;
     loading.style.display = "none";
 }
 
@@ -74,6 +76,7 @@ async function getWeather() {
     weatherbutton.innerHTML = 'Loading Weather Data...';
     let loading = document.querySelector('#LoadingAnimationWeather');
     document.getElementById('WeatherButton').disabled = true;
+    document.getElementById('HistoricalButton').disabled = true;
     loading.style.display = "inline-block";
 
     const response = await fetch(`/getweather`);
@@ -85,11 +88,11 @@ async function getWeather() {
     weatherData.esb[0] = roundArray(weatherData.esb[0], 3);
     weatherData.ddr[0] = roundArray(weatherData.ddr[0], 3);
 
-    if(myChart_line){
+    if (myChart_line) {
         myChart_line.destroy();
     }
 
-    if(myChart){
+    if (myChart) {
         myChart.destroy();
     }
 
@@ -102,6 +105,7 @@ async function getWeather() {
 
     weatherbutton.innerHTML = 'Weather';
     document.getElementById('WeatherButton').disabled = false;
+    document.getElementById('HistoricalButton').disabled = false;
     loading.style.display = "none";
 }
 
