@@ -1,6 +1,6 @@
-function roundArray(array, decimalPlaces){
+function roundArray(array, decimalPlaces) {
     var x = 0;
-    while (x < array.length){
+    while (x < array.length) {
         array[x] = array[x].toFixed(decimalPlaces);
         x++;
     }
@@ -9,15 +9,16 @@ function roundArray(array, decimalPlaces){
 }
 
 async function getData() {
-    //let historicalbutton = document.querySelector('#HistoricalButton');
-    //historicalbutton.addEventListener('click', historicalbutton.innerHTML = 'Loading Historical Data...')
+    let historicalbutton = document.querySelector('#HistoricalButton');
+    historicalbutton.innerHTML = 'Loading Historical Data...';
+    //document.getElementById('LoadingAnimation').style.display = "block";
 
     const response = await fetch(`/getdata`);
     const data = await response.json();
     const optData = JSON.parse(data);
     console.log(optData)
 
-    for (var i = 0; i < 6; i++){
+    for (var i = 0; i < 6; i++) {
         optData.pcea[i] = roundArray(optData.pcea[i], 3);
         optData.esb[i] = roundArray(optData.esb[i], 3);
         optData.ddr[i] = roundArray(optData.ddr[i], 3);
@@ -29,6 +30,8 @@ async function getData() {
 
     var visible = document.getElementById("visibiltydiv");
     visible.style.display = "block";
+
+    historicalbutton.innerHTML = 'Historical';
 }
 
 async function getWeather() {
@@ -96,18 +99,18 @@ function makeTempLine(displayData) {
                     scaleLabel: {
                         display: true,
                         labelString: 'Temperature (Celsius)',
-                        }
-                    },
-                    {
+                    }
+                },
+                {
                     id: 'B',
-                    type: 'linear', 
+                    type: 'linear',
                     position: 'right',
                     scaleLabel: {
                         display: true,
                         labelString: 'Dollars ($)',
-                        }
-                    },
-                    {
+                    }
+                },
+                {
                     gridLines: {
                         color: 'white',
                         zeroLineColor: 'white'
@@ -257,7 +260,7 @@ function makeWeatherTable(tableData) {
 
     var table_yearly = "<tr><td>$" + tableData.base_w_bill.toFixed(2) + "</td><td>$" + tableData.EA_w_bill.toFixed(2) + "</td><td>$" + tableData.ddr_w_bill.toFixed(2) + "</td></tr>"
 
-    
+
     document.getElementById("table_pcea").innerHTML = table_pcea
     document.getElementById("table_esb").innerHTML = table_esb
     document.getElementById("table_pcddr").innerHTML = table_pcddr
